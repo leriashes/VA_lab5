@@ -26,8 +26,16 @@ def rectangleRight(ys, h):
 def rectangleMiddle(func, a, b, h):
     return
 
-def rectangleLeft(func, a, b, h):
-    return
+def rectangleLeft(ys, h):
+
+    result = 0
+
+    for i in range (1, len(ys)):
+        result += ys[i]
+
+    result *= h
+
+    return result
 
 
 while True:
@@ -55,6 +63,7 @@ while True:
     ys = count_function(xs, func)
 
     print('Метод правых прямоугольников: ', rectangleRight(ys, h))
+    print('\nМетод левых прямоугольников: ', rectangleLeft(ys, h))
 
     print('\n\nЧтобы продолжить нажмите Enter. Для выхода из программы нажмите любую другую клавишу. ', end='')
     cont = getch.getch()
