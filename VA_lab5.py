@@ -25,17 +25,13 @@ def rectangleRight(ys, h):
 
 def rectangleMiddle(func, xs, h):
 
-    xsred = []
-
-    for i in range(len(xs) - 1):
-        xsred.append(xs[i] + h/2)
-
-    ys = count_function(xsred, func)
+    n = int((xs[len(xs) - 1] - xs[0]) // h)
 
     result = 0
 
-    for i in range (len(ys)):
-        result += ys[i]
+    for i in range (n):
+        x = xs[0] + h/2 + h * i
+        result += eval(func)
 
     result *= h
 
