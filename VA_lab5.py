@@ -52,6 +52,17 @@ def rectangleLeft(ys, h):
 
     return result
 
+def trapeze(ys, h):
+
+    result = (ys[0] + ys[len(ys) - 1]) / 2
+
+    for i in range (1, len(ys) - 1):
+        result += ys[i]
+
+    result *= h
+
+    return result
+
 
 while True:
     print('Введите функцию: y = ', end='')
@@ -80,6 +91,7 @@ while True:
     print('Метод правых прямоугольников: ', rectangleRight(ys, h))
     print('\nМетод средних прямоугольников: ', rectangleMiddle(func, xs, h))
     print('\nМетод левых прямоугольников: ', rectangleLeft(ys, h))
+    print('\nМетод трапеций: ', trapeze(ys, h))
 
     print('\n\nЧтобы продолжить нажмите Enter. Для выхода из программы нажмите любую другую клавишу. ', end='')
     cont = getch.getch()
