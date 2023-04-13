@@ -63,6 +63,22 @@ def trapeze(ys, h):
 
     return result
 
+def Simpson(ys, h):
+
+    if len(ys) % 2 == 0:
+        return 'нечётное число отрезков! '
+    else:
+        result = ys[0] + ys[len(ys) - 1]
+
+        for i in range (1, len(ys), 2):
+            result += ys[i] * 4
+
+        for i in range (2, len(ys) - 1, 2):
+            result += ys[i] * 2
+
+        result *= h / 3
+
+        return result
 
 while True:
     print('Введите функцию: y = ', end='')
@@ -92,6 +108,7 @@ while True:
     print('\nМетод средних прямоугольников: ', rectangleMiddle(func, xs, h))
     print('\nМетод левых прямоугольников: ', rectangleLeft(ys, h))
     print('\nМетод трапеций: ', trapeze(ys, h))
+    print('\nМетод Симпсона: ', Simpson(ys, h))
 
     print('\n\nЧтобы продолжить нажмите Enter. Для выхода из программы нажмите любую другую клавишу. ', end='')
     cont = getch.getch()
