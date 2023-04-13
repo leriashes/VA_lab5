@@ -80,6 +80,24 @@ def Simpson(ys, h):
 
         return result
 
+def Runge(func, xs, hu, eps):
+    h = hu
+    k = 1
+    n = len(xs - 1)
+    ready = False
+
+    while not ready:
+        ready = True
+        for i in range(n * k - 1):
+            xs1 = [xs[0] + h * i, xs[0] + h * i + h]
+            if abs(rectangleMiddle(func, xs1, h / 2) - rectangleMiddle(func, xs1, h)) > eps * h / (xs[len(xs) - 1] - xs[0]):
+                h /= 2
+                k += 1
+                ready = False
+                break
+
+    return h
+
 while True:
     print('Введите функцию: y = ', end='')
     func = input()
@@ -97,9 +115,21 @@ while True:
         if b > a:
             break
 
-    print('Введите шаг: h = ', end='')
-    h = float(input())
-    print('\n')
+    while True:
+        print('Введите шаг: h = ', end='')
+        h = float(input())
+        print('\n')
+
+        if h <= b - a:
+            break
+    
+    while True:
+        print('Введите допустимую относительную погрешность: eps = ', end='')
+        eps = float(input())
+        print('\n')
+
+        if eps > 0:
+            break
 
     xs = np.arange(a, b + h, h)
     ys = count_function(xs, func)
@@ -109,6 +139,13 @@ while True:
     print('\nМетод левых прямоугольников: ', rectangleLeft(ys, h))
     print('\nМетод трапеций: ', trapeze(ys, h))
     print('\nМетод Симпсона: ', Simpson(ys, h))
+
+    hauto = Runge(func, xs, h, eps)
+    xs = np.arange(a, b + hauto, hauto)
+
+    print('\nАвтоматический шаг: ', hauto)
+
+    print('\nМетод средних прямоугольников: ', rectangleMiddle(func, xs, hauto))
 
     print('\n\nЧтобы продолжить нажмите Enter. Для выхода из программы нажмите любую другую клавишу. ', end='')
     cont = getch.getch()
