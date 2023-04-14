@@ -12,7 +12,8 @@ def count_function(xs, func):
         ys.append(eval(func))
     return ys
 
-def rectangleRight(ys, h):
+#метод левых прямоугольников
+def rectangleLeft(ys, h):
 
     result = 0
 
@@ -23,6 +24,7 @@ def rectangleRight(ys, h):
 
     return result
 
+#метод средних прямоугольников
 def rectangleMiddle(func, xs, h):
 
     n = int((xs[len(xs) - 1] - xs[0]) // h)
@@ -37,7 +39,8 @@ def rectangleMiddle(func, xs, h):
 
     return result
 
-def rectangleLeft(ys, h):
+#метод правых прямоугольников
+def rectangleRight(ys, h):
 
     result = 0
 
@@ -48,6 +51,7 @@ def rectangleLeft(ys, h):
 
     return result
 
+#метод трапеций
 def trapeze(ys, h):
 
     result = (ys[0] + ys[len(ys) - 1]) / 2
@@ -59,23 +63,32 @@ def trapeze(ys, h):
 
     return result
 
-def Simpson(ys, h):
+#метод Симпсона
+def Simpson(func, xs, h):
 
-    if len(ys) % 2 == 0:
-        return 'нечётное число отрезков! '
-    else:
-        result = ys[0] + ys[len(ys) - 1]
+    if len(xs) % 2 == 0:
+        xs = np.append(xs, xs[len(xs) - 1] + h)
+    
+    x = xs[0]
+    result = eval(func)
 
-        for i in range (1, len(ys), 2):
-            result += ys[i] * 4
+    x = xs[len(xs) - 1]
+    result += eval(func)
 
-        for i in range (2, len(ys) - 1, 2):
-            result += ys[i] * 2
+    for i in range (1, len(xs), 2):
+        x = xs[i]
+        result += eval(func) * 4
 
-        result *= h / 3
+    for i in range (2, len(xs) - 1, 2):
+        x = xs[i]
+        result += eval(func) * 2
 
-        return result
+    result *= h / 3
 
+
+    return result
+
+#метод Рунге для поиска автоматического шага
 def Runge(func, xs, hu, eps):
     h = hu
     k = 1
@@ -130,20 +143,22 @@ while True:
     xs = np.arange(a, b + h, h)
     ys = count_function(xs, func)
 
-    print('Метод правых прямоугольников: ', rectangleRight(ys, h))
+    print('Метод левых прямоугольников: ', rectangleLeft(ys, h))
     print('\nМетод средних прямоугольников: ', rectangleMiddle(func, xs, h))
-    print('\nМетод левых прямоугольников: ', rectangleLeft(ys, h))
+    print('\nМетод правых  прямоугольников: ', rectangleRight(ys, h))
     print('\nМетод трапеций: ', trapeze(ys, h))
-    print('\nМетод Симпсона: ', Simpson(ys, h))
+    print('\nМетод Симпсона: ', Simpson(func, xs, h), end='')
+    if (len(xs) % 2 == 0): print(' (добавлена одна точка справа)', end='')
+
 
     hauto = Runge(func, xs, h, eps)
     xs = np.arange(a, b + hauto, hauto)
 
-    print('\nАвтоматический шаг: ', hauto)
+    print('\n\n\nАвтоматический шаг: ', hauto)
 
     print('\nМетод средних прямоугольников: ', rectangleMiddle(func, xs, hauto))
 
-    print('\n\nЧтобы продолжить нажмите Enter. Для выхода из программы нажмите любую другую клавишу. ', end='')
+    print('\n\nЧтобы продолжить нажмите Enter. Для выхода из программы нажмите любую другую клавишу. ', end='\n')
     cont = getch.getch()
    
     if cont == '\n' or cont == b'\r':
